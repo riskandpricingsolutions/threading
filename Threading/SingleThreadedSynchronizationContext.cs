@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 
 namespace RiskAndPricingSolutions.Threading
 {
@@ -14,6 +15,7 @@ namespace RiskAndPricingSolutions.Threading
         {
             new Thread(() =>
             {
+                _logger.Debug($"{nameof(SingleThreadedSynchronizationContext)} Starting single thread");
                 while (true)
                 {
                     try
@@ -49,5 +51,7 @@ namespace RiskAndPricingSolutions.Threading
 
         private readonly BlockingCollection<Action> _callbacks = 
             new BlockingCollection<Action>();
+
+        private readonly ILog _logger = LogManager.GetLogger(typeof(SingleThreadedSynchronizationContext));
     }
 }
